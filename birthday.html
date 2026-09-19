@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Birthday Celebration Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                        pacifico: ['Pacifico', 'cursive'],
+                    },
+                    colors: {
+                        festivePink: '#ff497c',
+                        festivePurple: '#6b21a8',
+                        festiveYellow: '#ffcd3c',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 73, 124, 0.6); }
+            50% { box-shadow: 0 0 40px rgba(255, 205, 60, 0.9); }
+        }
+        .glow-effect {
+            animation: pulse-glow 3s infinite;
+        }
+        .balloon {
+            transition: transform 0.2s, opacity 0.5s;
+            cursor: pointer;
+        }
+        .balloon:hover {
+            transform: scale(1.1);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #11071f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff497c;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="font-poppins bg-gradient-to-br from-indigo-950 via-purple-950 to-pink-950 text-white min-h-screen flex flex-col overflow-x-hidden selection:bg-festivePink selection:text-white">
+
+    <header class="fixed top-0 left-0 w-full bg-indigo-950/80 backdrop-blur-md py-4 px-6 md:px-12 flex justify-between items-center z-50 border-b border-white/10 shadow-lg">
+        <div class="flex items-center space-x-2">
+            <span class="text-3xl animate-bounce">🎈</span>
+            <span class="font-pacifico text-2xl text-festiveYellow">ONTORA</span>
+        </div>
+        <nav class="hidden md:flex space-x-8 text-sm font-semibold">
+            <a href="#hero" class="hover:text-festiveYellow transition-colors">Home</a>
+            <a href="#games" class="hover:text-festiveYellow transition-colors">Party Games</a>
+            <a href="#cake" class="hover:text-festiveYellow transition-colors">Birthday Cake</a>
+            <!-- <a href="#gallery" class="hover:text-festiveYellow transition-colors">Memories</a> -->
+        </nav>
+        <div class="flex items-center space-x-3">
+            <button onclick="triggerFireworks()" class="bg-gradient-to-r from-pink-500 to-yellow-500 hover:from-pink-600 hover:to-yellow-600 text-white font-semibold px-4 py-2 rounded-full shadow-lg transition-transform transform hover:scale-105 text-xs md:text-sm cursor-pointer">
+                🎆 Fireworks
+            </button>
+        </div>
+    </header>
+
+    <section id="hero" class="min-h-screen flex flex-col items-center justify-center px-4 pt-24 pb-12 relative">
+        <div class="max-w-3xl w-full bg-white/10 backdrop-blur-xl rounded-3xl p-6 md:p-12 shadow-2xl border border-white/20 glow-effect text-center relative">
+            <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-festivePink to-festiveYellow text-white font-bold px-6 py-2 rounded-full shadow-md text-sm uppercase tracking-wider">
+                Special Wish 🎉
+            </div>
+
+            <h1 class="font-pacifico text-4xl sm:text-6xl text-festiveYellow mt-4 mb-3 animate-float">
+                Happy Birthday, Billu 🥰🎉
+            </h1>
+            <p class="text-gray-200 text-base sm:text-xl mb-8 font-light max-w-xl mx-auto">
+Happy Birthday to a very lucky girl! 🥳❤️
+May Allah bless you with endless happiness, good health, success, and everything your heart wishes for. Stay the amazing person you are. ✨            </p>
+
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#games" class="bg-festivePink hover:bg-pink-600 text-white font-bold px-6 py-3 rounded-full shadow-lg transition-all transform hover:scale-105 text-sm">
+                    🎈 Play Balloon Pop
+                </a>
+                <a href="#cake" class="bg-festiveYellow text-purple-950 font-bold px-6 py-3 rounded-full shadow-lg hover:bg-amber-400 transition-all transform hover:scale-105 text-sm">
+                    🎂 Cut the Cake
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-6 animate-bounce text-center">
+            <a href="#games" class="text-xs text-gray-400 uppercase tracking-widest flex flex-col items-center">
+                <span>Scroll to Party</span>
+                <span class="text-xl mt-1">↓</span>
+            </a>
+        </div>
+    </section>
+
+    <section id="games" class="min-h-screen flex flex-col items-center justify-center px-4 py-20 relative bg-black/20">
+        <div class="max-w-4xl w-full text-center">
+            <h2 class="font-pacifico text-3xl sm:text-5xl text-festiveYellow mb-4">Pop the Party Balloons!</h2>
+            <p class="text-gray-300 text-sm sm:text-base mb-8 max-w-lg mx-auto">
+                Click or tap the balloons below to pop them, reveal hidden birthday wishes!
+            </p>
+
+            <div id="scoreBoard" class="text-lg font-bold text-pink-400 mb-6 bg-white/5 py-2 px-6 rounded-full inline-block border border-pink-500/30">
+                Balloons Popped: <span id="popCount">0</span> / 6
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 md:gap-8 justify-items-center max-w-2xl mx-auto min-h-[300px]">
+                <!-- Balloon Items -->
+                <div onclick="popBalloon(this, 'Wishing you endless success and happiness! 🌟')" class="balloon w-28 h-36 bg-gradient-to-t from-pink-600 to-pink-400 rounded-full shadow-xl flex flex-col justify-end items-center pb-3 relative">
+                    <div class="w-1.5 h-12 bg-pink-300/60 -bottom-12 absolute"></div>
+                    <span class="text-2xl">🎁</span>
+                </div>
+                <div onclick="popBalloon(this, 'May your year be filled with epic adventures! 🚀')" class="balloon w-28 h-36 bg-gradient-to-t from-purple-600 to-purple-400 rounded-full shadow-xl flex flex-col justify-end items-center pb-3 relative">
+                    <div class="w-1.5 h-12 bg-purple-300/60 -bottom-12 absolute"></div>
+                    <span class="text-2xl">⭐</span>
+                </div>
+                <div onclick="popBalloon(this, 'Keep shining brighter than ever! ✨')" class="balloon w-28 h-36 bg-gradient-to-t from-yellow-500 to-amber-300 rounded-full shadow-xl flex flex-col justify-end items-center pb-3 relative">
+                    <div class="w-1.5 h-12 bg-yellow-300/60 -bottom-12 absolute"></div>
+                    <span class="text-2xl">💖</span>
+                </div>
+                <div onclick="popBalloon(this, 'Good health, great vibes, and joy! 🍀')" class="balloon w-28 h-36 bg-gradient-to-t from-emerald-600 to-emerald-400 rounded-full shadow-xl flex flex-col justify-end items-center pb-3 relative">
+                    <div class="w-1.5 h-12 bg-emerald-300/60 -bottom-12 absolute"></div>
+                    <span class="text-2xl">🍰</span>
+                </div>
+                <div onclick="popBalloon(this, 'All your big dreams will come true! 🎯')" class="balloon w-28 h-36 bg-gradient-to-t from-blue-600 to-blue-400 rounded-full shadow-xl flex flex-col justify-end items-center pb-3 relative">
+                    <div class="w-1.5 h-12 bg-blue-300/60 -bottom-12 absolute"></div>
+                    <span class="text-2xl">🎉</span>
+                </div>
+                <div onclick="popBalloon(this, 'You are an absolute legend! 👑')" class="balloon w-28 h-36 bg-gradient-to-t from-rose-600 to-rose-400 rounded-full shadow-xl flex flex-col justify-end items-center pb-3 relative">
+                    <div class="w-1.5 h-12 bg-rose-300/60 -bottom-12 absolute"></div>
+                    <span class="text-2xl">🎵</span>
+                </div>
+            </div>
+
+            <div id="balloonMessage" class="mt-10 h-16 flex items-center justify-center text-festiveYellow font-semibold text-lg px-4 bg-purple-950/60 rounded-xl border border-purple-500/30 max-w-lg mx-auto shadow-inner">
+                Click any balloon above to start popping!
+            </div>
+        </div>
+    </section>
+
+    <section id="cake" class="min-h-screen flex flex-col items-center justify-center px-4 py-20 relative">
+        <div class="max-w-2xl w-full bg-white/10 backdrop-blur-xl rounded-3xl p-6 md:p-12 shadow-2xl border border-white/20 text-center">
+            <h2 class="font-pacifico text-3xl sm:text-5xl text-festiveYellow mb-3">Blow Out the Candles!</h2>
+            <p class="text-gray-300 text-sm sm:text-base mb-8">
+                Make a wish, then click the button below or blow to extinguish the candles and unlock your ultimate wish!
+            </p>
+
+            <!-- Cake Container -->
+            <div class="relative w-64 h-48 mx-auto my-6 flex flex-col justify-end items-center">
+                <!-- Candles & Flames -->
+                <div class="flex space-x-6 z-10 mb-2">
+                    <div class="flex flex-col items-center">
+                        <div id="flame1" class="w-4 h-6 bg-gradient-to-t from-orange-500 to-yellow-300 rounded-full animate-bounce shadow-lg"></div>
+                        <div class="w-2 h-10 bg-white rounded-t"></div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div id="flame2" class="w-4 h-6 bg-gradient-to-t from-orange-500 to-yellow-300 rounded-full animate-bounce shadow-lg" style="animation-delay: 0.2s"></div>
+                        <div class="w-2 h-10 bg-white rounded-t"></div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div id="flame3" class="w-4 h-6 bg-gradient-to-t from-orange-500 to-yellow-300 rounded-full animate-bounce shadow-lg" style="animation-delay: 0.4s"></div>
+                        <div class="w-2 h-10 bg-white rounded-t"></div>
+                    </div>
+                </div>
+
+                <!-- Cake Body Top Layer -->
+                <div class="w-56 h-16 bg-gradient-to-r from-pink-400 via-pink-300 to-pink-500 rounded-t-3xl shadow-md relative flex items-center justify-center">
+                    <div class="absolute -top-2 w-full flex justify-around">
+                        <div class="w-6 h-6 bg-white rounded-full"></div>
+                        <div class="w-6 h-6 bg-white rounded-full"></div>
+                        <div class="w-6 h-6 bg-white rounded-full"></div>
+                        <div class="w-6 h-6 bg-white rounded-full"></div>
+                    </div>
+                    <span class="text-purple-950 font-bold text-xs uppercase tracking-widest z-10">Happy Birthday</span>
+                </div>
+
+                <!-- Cake Body Bottom Layer -->
+                <div class="w-64 h-20 bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 rounded-xl shadow-2xl border-b-8 border-purple-800 flex items-center justify-center">
+                    <div class="w-full flex justify-around px-2">
+                        <div class="w-3 h-3 bg-yellow-300 rounded-full"></div>
+                        <div class="w-3 h-3 bg-pink-300 rounded-full"></div>
+                        <div class="w-3 h-3 bg-yellow-300 rounded-full"></div>
+                        <div class="w-3 h-3 bg-pink-300 rounded-full"></div>
+                        <div class="w-3 h-3 bg-yellow-300 rounded-full"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+                <button id="blowBtn" onclick="blowCandles()" class="bg-gradient-to-r from-festivePink to-yellow-500 hover:from-pink-600 hover:to-amber-500 text-white font-bold px-8 py-3 rounded-full shadow-lg transition-transform transform hover:scale-105 cursor-pointer">
+                    🌬️ Blow Out Candles
+                </button>
+                <button onclick="resetCake()" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-full transition-all cursor-pointer border border-white/20 text-sm">
+                    🔄 Reset Candles
+                </button>
+            </div>
+
+            <p id="cakeStatus" class="mt-4 text-sm text-gray-300 font-light h-6"></p>
+        </div>
+    </section>
+<!-- 
+    <section id="gallery" class="min-h-screen flex flex-col justify-between px-4 py-20 bg-black/30">
+        <div class="max-w-5xl w-full mx-auto text-center">
+            <h2 class="font-pacifico text-3xl sm:text-5xl text-festiveYellow mb-4">Memory Lane 📸</h2>
+            <p class="text-gray-300 text-sm sm:text-base mb-12 max-w-xl mx-auto">
+                Celebrating great moments, wonderful laughs, and fantastic milestones together!
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"> -->
+                <!-- Memory Card 1 -->
+                <!-- <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/10 shadow-lg transform hover:-translate-y-2 transition-transform">
+                    <div class="h-48 rounded-xl overflow-hidden mb-4 relative bg-purple-900/40 flex items-center justify-center">
+                        <img src="https://placehold.co/400x300/4a1d96/ffffff?text=Epic+Adventure" alt="Memory 1" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity">
+                        <span class="absolute bottom-2 left-2 bg-black/60 text-xs px-2 py-1 rounded text-festiveYellow">Adventure Time</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-white mb-1">Mountain Hike 🏔️</h3>
+                    <p class="text-gray-300 text-xs">Conquering heights and celebrating every step of the journey.</p>
+                </div> -->
+
+                <!-- Memory Card 2 -->
+                <!-- <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/10 shadow-lg transform hover:-translate-y-2 transition-transform">
+                    <div class="h-48 rounded-xl overflow-hidden mb-4 relative bg-purple-900/40 flex items-center justify-center">
+                        <img src="https://placehold.co/400x300/be185d/ffffff?text=Birthday+Party" alt="Memory 2" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity">
+                        <span class="absolute bottom-2 left-2 bg-black/60 text-xs px-2 py-1 rounded text-festiveYellow">Good Times</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-white mb-1">Last Year's Bash 🎂</h3>
+                    <p class="text-gray-300 text-xs">Unforgettable laughs, cake fights, and endless dancing.</p>
+                </div> -->
+
+                <!-- Memory Card 3 -->
+                <!-- <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/10 shadow-lg transform hover:-translate-y-2 transition-transform sm:col-span-2 md:col-span-1">
+                    <div class="h-48 rounded-xl overflow-hidden mb-4 relative bg-purple-900/40 flex items-center justify-center">
+                        <img src="https://placehold.co/400x300/b45309/ffffff?text=Sunset+Vibes" alt="Memory 3" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity">
+                        <span class="absolute bottom-2 left-2 bg-black/60 text-xs px-2 py-1 rounded text-festiveYellow">Chill Vibes</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-white mb-1">Sunset Beach 🌅</h3>
+                    <p class="text-gray-300 text-xs">Relaxing under golden hour skies with wonderful company.</p>
+                </div> -->
+            <!-- </div>
+        </div>
+
+        <footer class="w-full text-center pt-16 pb-6 text-gray-400 text-xs md:text-sm">
+            <p>Made with ❤️ and celebration energy. Happy Birthday!</p>
+        </footer>
+    </section> -->
+<footer class="w-full text-center pt-16 pb-6 text-gray-400 text-xs md:text-sm">
+            <p>"What is written for you will reach you, even if it is beneath two mountains; and what is not written for you will never be yours." So , keep faith and make dua to almighty.</p>
+        </footer>
+    <script>
+        // Trigger welcome fireworks on page load
+        window.addEventListener('load', () => {
+            triggerFireworks();
+        });
+
+        function triggerFireworks() {
+            var duration =3 * 2000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+                var particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        // Balloon Pop Game State
+        let poppedCount = 0;
+        const totalBalloons = 6;
+
+        function popBalloon(element, message) {
+            if (element.style.opacity === '0.2') return; // Already popped
+
+            element.style.transform = 'scale(0)';
+            element.style.opacity = '0.2';
+            poppedCount++;
+            document.getElementById('popCount').textContent = poppedCount;
+            document.getElementById('balloonMessage').textContent = message;
+
+            // Small confetti pop
+            confetti({
+                particleCount: 40,
+                spread: 60,
+                origin: { y: 0.7 }
+            });
+
+            if (poppedCount === totalBalloons) {
+                document.getElementById('balloonMessage').textContent = '🎉 Incredible! You popped all balloons and unlocked ultimate birthday luck! 🌟';
+                triggerFireworks();
+            }
+        }
+
+        // Cake Candle Blowing State
+        let candlesBlown = false;
+
+        function blowCandles() {
+            if (candlesBlown) return;
+
+            document.getElementById('flame1').style.display = 'none';
+            document.getElementById('flame2').style.display = 'none';
+            document.getElementById('flame3').style.display = 'none';
+            
+            candlesBlown = true;
+            document.getElementById('cakeStatus').textContent = '✨ Wish granted! May all your dreams come true this year! 🎂';
+            document.getElementById('blowBtn').textContent = '🌟 Candles Extinguished';
+            document.getElementById('blowBtn').classList.add('opacity-50', 'cursor-not-allowed');
+
+            triggerFireworks();
+        }
+
+        function resetCake() {
+            document.getElementById('flame1').style.display = 'block';
+            document.getElementById('flame2').style.display = 'block';
+            document.getElementById('flame3').style.display = 'block';
+            
+            candlesBlown = false;
+            document.getElementById('cakeStatus').textContent = '';
+            document.getElementById('blowBtn').textContent = '🌬️ Blow Out Candles';
+            document.getElementById('blowBtn').classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+    </script>
+</body>
+</html>
+
+
